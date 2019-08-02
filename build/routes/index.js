@@ -1,11 +1,18 @@
 "use strict";
 
-var _controllers = _interopRequireDefault(require("./controllers"));
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _controller = _interopRequireDefault(require("./controller"));
 
-module.exports = app => {
-  app.route("/about").get(_controllers.default.about);
-  app.route("/job/create").get(_controllers.default.job.create); // app.route("/fetchLocations").post(controller.fetchLocations);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var _default = function _default(app) {
+  app.route("/about").get(_controller["default"].about);
+  app.route("/job/create").get(_controller["default"].job.create); // app.route("/fetchLocations").post(controller.fetchLocations);
 };
+
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

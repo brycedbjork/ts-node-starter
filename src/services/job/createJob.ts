@@ -1,10 +1,11 @@
-const createJob = ({ body: { uid, token } }, res) => {
-  // auth.verifyIdToken(token).then(decodedToken => {
-  //   if (decodedToken.uid === uid) {
-  //     res.sendStatus(200)
-  //   }
-  // });
-  res.sendStatus(200);
+import { auth } from "../../firebase";
+
+const createJob = (req: { body: { uid: string; token: string } }, res: any) => {
+  auth.verifyIdToken(token).then(decodedToken => {
+    if (decodedToken.uid === uid) {
+      res.sendStatus(200);
+    }
+  });
 };
 
 export default createJob;

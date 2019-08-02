@@ -2,10 +2,10 @@
 
 var _firebaseAdmin = _interopRequireDefault(require("firebase-admin"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-_firebaseAdmin.default.initializeApp({
-  credential: _firebaseAdmin.default.credential.cert({
+_firebaseAdmin["default"].initializeApp({
+  credential: _firebaseAdmin["default"].credential.cert({
     projectId: process.env.PROJECT_ID,
     clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
     privateKey: process.env.FIREBASE_KEY.replace(/\\n/g, "\n")
@@ -13,18 +13,18 @@ _firebaseAdmin.default.initializeApp({
   databaseURL: "https://hireastudent-tech.firebaseio.com"
 });
 
-const db = _firebaseAdmin.default.database();
+var db = _firebaseAdmin["default"].database();
 
-const firestore = _firebaseAdmin.default.firestore();
+var firestore = _firebaseAdmin["default"].firestore();
 
-const fcm = _firebaseAdmin.default.messaging();
+var fcm = _firebaseAdmin["default"].messaging();
 
-const auth = _firebaseAdmin.default.auth();
+var auth = _firebaseAdmin["default"].auth();
 
 module.exports = {
-  db,
-  firestore,
-  fcm,
-  auth
+  db: db,
+  firestore: firestore,
+  fcm: fcm,
+  auth: auth
 };
 //# sourceMappingURL=firebase.js.map

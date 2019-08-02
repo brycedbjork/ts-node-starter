@@ -1,1 +1,1 @@
-{"version":3,"sources":[],"names":[],"mappings":"","sourcesContent":[],"file":"getJob.js"}
+{"version":3,"sources":["../../../src/services/job/getJob.ts"],"names":[],"mappings":";;;;;;;eAAe,oBAAM,CAAE,C","sourcesContent":["export default () => {};\n"],"file":"getJob.js"}
