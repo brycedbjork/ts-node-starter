@@ -9,7 +9,7 @@ import {
 } from "geofirestore";
 import moment from "moment";
 import { JobPost } from "../../schemas/Job";
-import Sentry from "@sentry/node";
+import * as Sentry from "@sentry/node";
 import slack from "../../utils/slack";
 import { Hirer } from "../../schemas/User";
 

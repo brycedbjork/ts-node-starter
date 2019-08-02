@@ -1,7 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import logger from "morgan";
-import Sentry from "@sentry/node";
+import * as Sentry from "@sentry/node";
 
 import routes from "./routes";
 

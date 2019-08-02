@@ -34,6 +34,6 @@ export interface Student extends BaseUser {
 }
 
 export interface Hirer extends BaseUser {
-  customerId: string; // used to paystudents
+  customerId: string; // used to pay students
   address: string;
 }
