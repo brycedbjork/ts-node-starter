@@ -27,4 +27,4 @@ module.exports = {
   fcm,
   auth
 };
-//# sourceMappingURL=firebase-controller.js.map
+//# sourceMappingURL=firebase.js.map

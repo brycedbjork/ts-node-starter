@@ -1,11 +1,11 @@
 "use strict";
 
-var _controller = _interopRequireDefault(require("./controller"));
+var _controllers = _interopRequireDefault(require("./controllers"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 module.exports = app => {
-  app.route("/about").get(_controller.default.about); // app.route("/syncLocations").post(controller.syncLocations);
-  // app.route("/fetchLocations").post(controller.fetchLocations);
+  app.route("/about").get(_controllers.default.about);
+  app.route("/job/create").get(_controllers.default.job.create); // app.route("/fetchLocations").post(controller.fetchLocations);
 };
 //# sourceMappingURL=index.js.map
