@@ -9,14 +9,7 @@ admin.initializeApp({
   databaseURL: "https://hireastudent-tech.firebaseio.com"
 });
 
-const db = admin.database();
-const firestore = admin.firestore();
-const fcm = admin.messaging();
-const auth = admin.auth();
-
-module.exports = {
-  db,
-  firestore,
-  fcm,
-  auth
-};
+export const database = admin.database();
+export const firestore = admin.firestore();
+export const messaging = admin.messaging();
+export const auth = admin.auth();
