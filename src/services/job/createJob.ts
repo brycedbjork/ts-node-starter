@@ -8,7 +8,7 @@ import {
   GeoQuerySnapshot
 } from "geofirestore";
 import moment from "moment";
-import { JobPost } from "../../schemas/Job";
+import { JobPost, Job } from "../../schemas/Job";
 import * as Sentry from "@sentry/node";
 import slack from "../../utils/slack";
 import { Hirer } from "../../schemas/User";
@@ -24,7 +24,7 @@ const geoUserLocations: GeoCollectionReference = geoFirestore.collection(
 const NOTIFICATION_RADIUS = 20; // km
 
 const createJob = async (
-  req: { body: { uid: string; token: string; data: JobPost } },
+  req: { body: { uid: string; token: string; data: object } },
   res: any
 ) => {
   try {
@@ -47,7 +47,7 @@ const createJob = async (
     const userEntity = userDoc.data() as Hirer;
 
     // construct and post job
-    const newJob = {
+    const newJob: any = {
       ...data,
       postedTime: moment().unix(),
       postedDate: moment().format(),

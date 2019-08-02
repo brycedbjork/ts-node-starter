@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "source .env && babel-node ./src/app.ts --extensions '.ts'",
-    "start": "yarn build && node ./build/app",
+    "dev": "source .env && ./node_modules/nodemon/bin/nodemon.js",
+    "start": "ts-node src/app.ts",
     "build": "yarn clean && yarn build-babel",
     "clean": "rm -rf build && mkdir build",
     "build-babel": "npx babel -d ./build ./src -s --extensions '.ts'",
@@ -36,6 +36,8 @@
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-typescript": "^7.3.3",
     "@types/morgan": "^1.7.36",
+    "nodemon": "^1.19.1",
+    "ts-node": "^8.3.0",
     "typescript": "^3.5.3"
   }
 }
