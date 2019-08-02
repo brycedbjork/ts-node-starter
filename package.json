@@ -1,6 +1,6 @@
 {
   "name": "has-api",
-  "version": "1",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "dev": "source .env && babel-node ./src/app.ts --extensions '.ts'",
