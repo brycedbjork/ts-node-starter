@@ -11,6 +11,7 @@ import moment from "moment";
 import { JobPost } from "../../schemas/Job";
 import Sentry from "@sentry/node";
 import slack from "../../utils/slack";
+import { Hirer } from "../../schemas/User";
 
 let geoFirestore = new GeoFirestore(firestore);
 const geoJobLocations: GeoCollectionReference = geoFirestore.collection(
@@ -36,8 +37,14 @@ const createJob = async (
     }
 
     // get user doc
-    const userDoc = await firestore.collection("users").doc(uid);
-    const userEntity = userDoc.data();
+    const userDoc = await firestore
+      .collection("users")
+      .doc(uid)
+      .get();
+    if (!userDoc.exists) {
+      return res.status(400).send("User does not exist");
+    }
+    const userEntity = userDoc.data() as Hirer;
 
     // construct and post job
     const newJob = {
