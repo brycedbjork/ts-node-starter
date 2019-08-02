@@ -46,6 +46,8 @@ const createJob = async (
     }
     const userEntity = userDoc.data() as Hirer;
 
+    // TODO: get display location from job's lat lng
+
     // construct and post job
     const newJob: any = {
       ...data,
