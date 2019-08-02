@@ -12,6 +12,7 @@ import { JobPost, Job } from "../../schemas/Job";
 import * as Sentry from "@sentry/node";
 import slack from "../../utils/slack";
 import { Hirer } from "../../schemas/User";
+import authenticate from "../../utils/authenticate";
 
 let geoFirestore = new GeoFirestore(firestore);
 const geoJobLocations: GeoCollectionReference = geoFirestore.collection(
@@ -24,17 +25,11 @@ const geoUserLocations: GeoCollectionReference = geoFirestore.collection(
 const NOTIFICATION_RADIUS = 20; // km
 
 const createJob = async (
-  req: { body: { uid: string; token: string; data: object } },
+  req: { body: { uid: string; token: string; data: JobPost } },
   res: any
 ) => {
   try {
-    const { uid, token, data } = req.body;
-
-    // verify user is who they say they are
-    const decodedToken = await auth.verifyIdToken(token);
-    if (decodedToken.uid != uid) {
-      return res.status(403).send("Could not validate token");
-    }
+    const { uid, data } = req.body;
 
     // get user doc
     const userDoc = await firestore
@@ -47,6 +42,11 @@ const createJob = async (
     const userEntity = userDoc.data() as Hirer;
 
     // TODO: get display location from job's lat lng
+    const displayLocation = `${userEntity.city}${
+      userEntity.state ? `, ${userEntity.state}` : ""
+    }${
+      !userEntity.state && userEntity.country ? `, ${userEntity.country}` : ""
+    }`;
 
     // construct and post job
     const newJob: any = {
@@ -59,11 +59,7 @@ const createJob = async (
         image: userEntity.image
       },
       matchedUsers: {},
-      displayLocation: `${userEntity.city}${
-        userEntity.state ? `, ${userEntity.state}` : ""
-      }${
-        !userEntity.state && userEntity.country ? `, ${userEntity.country}` : ""
-      }`
+      displayLocation
     };
     const postedJob: admin.firestore.DocumentReference = await firestore
       .collection("jobs")
@@ -103,6 +99,11 @@ const createJob = async (
       id: postedJob.id,
       data: newJob
     });
+
+    // dont send out notifications for test post
+    if (data.type == "test") {
+      return;
+    }
 
     // pull nearby students
     const query: GeoQuery = await geoUserLocations.near({
@@ -147,4 +148,4 @@ const createJob = async (
   }
 };
 
-export default createJob;
+export default authenticate(createJob);

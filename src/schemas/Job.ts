@@ -4,10 +4,7 @@ export interface JobPost {
     latitude: number;
     longitude: number;
   };
-  timing: {
-    type: string;
-    date: null;
-  };
+  timing: string; // flexible or moment().format()
   wage: {
     type: string;
     amount: number;
