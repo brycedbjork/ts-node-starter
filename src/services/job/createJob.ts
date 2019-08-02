@@ -24,12 +24,9 @@ const geoUserLocations: GeoCollectionReference = geoFirestore.collection(
 
 const NOTIFICATION_RADIUS = 20; // km
 
-const createJob = async (
-  req: { body: { uid: string; token: string; data: JobPost } },
-  res: any
-) => {
+const createJob = async (req: any, res: any) => {
   try {
-    const { uid, data } = req.body;
+    const { uid, data }: { uid: string; data: JobPost } = req.body;
 
     // get user doc
     const userDoc = await firestore

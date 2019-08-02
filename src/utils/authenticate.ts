@@ -1,6 +1,9 @@
 import { auth } from "../firebase";
 import * as Sentry from "@sentry/node";
 
+/*
+  wraps express routes and authenticates the passed token
+*/
 export default function(wrapped: any) {
   return async function(this: any) {
     const req: any = arguments[0];
@@ -16,7 +19,6 @@ export default function(wrapped: any) {
         throw new Error("decoded uid did not match passed uid");
       }
     } catch (error) {
-      console.log(error);
       Sentry.captureException(error);
       return res.status(403).send("Could not validate token");
     }
