@@ -7,7 +7,7 @@
     "start": "yarn build && node ./build/app",
     "build": "yarn clean && yarn build-babel",
     "clean": "rm -rf build && mkdir build",
-    "build-babel": "npx babel-cli -d ./build ./src -s --extensions '.ts'",
+    "build-babel": "npx babel -d ./build ./src -s --extensions '.ts'",
     "check-types": "tsc"
   },
   "dependencies": {
@@ -34,7 +34,7 @@
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-typescript": "^7.3.3",
     "@types/morgan": "^1.7.36",
-    "babel-cli": "^6.26.0",
+    "babel-core": "^7.0.0-bridge.0",
     "typescript": "^3.5.3"
   }
 }
