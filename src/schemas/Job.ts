@@ -17,9 +17,9 @@ export interface JobPost {
 export interface Job extends JobPost {
   id: string;
   active: boolean;
+  status: "searching" | "claimed";
   postedTime: number;
   postedDate: string;
-  claimed: boolean;
   hirer: {
     id: string;
     firstName: string;
@@ -27,4 +27,5 @@ export interface Job extends JobPost {
   };
   displayLocation: string;
   matchedUsers: object;
+  locationKey: string;
 }

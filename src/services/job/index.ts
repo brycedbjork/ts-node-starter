@@ -3,11 +3,12 @@ import createJob from "./createJob";
 import deleteJob from "./deleteJob";
 import getJob from "./getJob";
 import updateJob from "./updateJob";
+import authenticate from "../../utils/authenticate";
 
 export default {
-  claim: claimJob,
-  create: createJob,
-  delete: deleteJob,
+  claim: authenticate(claimJob),
+  create: authenticate(createJob),
+  delete: authenticate(deleteJob),
   get: getJob,
-  update: updateJob
+  update: authenticate(updateJob)
 };
