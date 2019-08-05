@@ -13,6 +13,7 @@ import * as Sentry from "@sentry/node";
 import slack from "../../utils/slack";
 import { Hirer } from "../../schemas/User";
 import jobNotification from "../notification/jobNotification";
+import { getUser } from "../user/getUser";
 
 let geoFirestore = new GeoFirestore(firestore);
 const geoJobLocations: GeoCollectionReference = geoFirestore.collection(
@@ -20,15 +21,7 @@ const geoJobLocations: GeoCollectionReference = geoFirestore.collection(
 );
 
 export const createJob = async (uid: string, data: JobPost) => {
-  // get user doc
-  const userDoc = await firestore
-    .collection("users")
-    .doc(uid)
-    .get();
-  if (!userDoc.exists) {
-    throw new Error("User does not exist");
-  }
-  const userEntity = userDoc.data() as Hirer;
+  const userEntity = await getUser(uid);
 
   // TODO: get display location from job's lat lng
   const displayLocation = `${userEntity.city}${

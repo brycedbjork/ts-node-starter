@@ -3,13 +3,15 @@ import { getJob } from "../../job/getJob";
 import sendgrid from "@sendgrid/mail";
 sendgrid.setApiKey(<string>process.env.SENDGRID_KEY);
 
-export default async (
-  uid: string | string[],
-  type: "job" | "chat" | "claimed",
-  userEmail?: string | string[],
-  jobId?: string,
-  jobData?: object
-) => {
+export interface EmailOptions {
+  uid: string | string[];
+  type: "job" | "chat" | "claimed";
+  userEmail?: string | string[];
+  jobId?: string;
+  jobData?: object;
+}
+export default async (options: EmailOptions) => {
+  let { uid, type, userEmail, jobId, jobData } = options;
   // create array of email addresses to send to
   let emails = [];
   if (!userEmail) {

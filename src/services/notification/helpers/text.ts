@@ -20,11 +20,13 @@ export const text = async (phoneNumber: string, message: string) => {
   await client.messages.create(textMessage);
 };
 
-export default async (
-  uid: string | string[],
-  message: string,
-  userPhoneNumber?: string | string[]
-) => {
+export interface TextOptions {
+  uid: string | string[];
+  message: string;
+  userPhoneNumber?: string | string[];
+}
+export default async (options: TextOptions) => {
+  const { uid, message, userPhoneNumber } = options;
   let numbers: string[] = [];
   if (!userPhoneNumber) {
     if (typeof uid === "string") {

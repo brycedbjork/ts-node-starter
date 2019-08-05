@@ -19,13 +19,13 @@ export const getUser = async (id: string, type?: "student" | "hirer") => {
 
   switch (type) {
     case "student":
-      return data as Student;
+      return <Student>data;
 
     case "hirer":
-      return data as Hirer;
+      return <Hirer>data;
 
     default:
-      return data as BaseUser;
+      return <BaseUser>data;
   }
 };
 

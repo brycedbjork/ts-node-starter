@@ -15,7 +15,7 @@ export interface JobPost {
 }
 
 export interface Job extends JobPost {
-  id: string;
+  id?: string;
   active: boolean;
   status: "searching" | "claimed";
   postedTime: number;

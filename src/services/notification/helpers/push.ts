@@ -6,20 +6,23 @@ import { getUser } from "../../user/getUser";
 Sends out push notification(s)
 */
 
-export default async (
-  user: string | string[],
-  body: string,
-  title?: string
-) => {
+export interface PushOptions {
+  uid: string | string[];
+  body: string;
+  title?: string;
+  data?: object;
+}
+export default async (options: PushOptions) => {
+  const { uid, body, title, data } = options;
   // get all push tokens
   let getUsers = [];
-  if (typeof user === "string") {
+  if (typeof uid === "string") {
     // single user
-    getUsers.push(getUser(user));
+    getUsers.push(getUser(uid));
   } else {
     // multiple users
-    user.forEach(uid => {
-      getUsers.push(getUser(uid));
+    uid.forEach(singleId => {
+      getUsers.push(getUser(singleId));
     });
   }
   const users = await Promise.all(getUsers);
@@ -33,7 +36,8 @@ export default async (
   // construct payload
   let notification: any = {
     body,
-    badge: "1"
+    badge: "1",
+    data
   };
   if (title) notification.title = title;
   const payload: admin.messaging.MessagingPayload = { notification };

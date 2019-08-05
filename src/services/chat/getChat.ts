@@ -1,24 +1,27 @@
 import { firestore } from "../../firebase";
-import { Job } from "../../schemas/Job";
+import { Chat } from "../../schemas/Chat";
 import * as Sentry from "@sentry/node";
 
-export const getJob = async (id: string) => {
+export const getChat = async (id: string) => {
   // get job entity
-  const jobDoc = await firestore
-    .collection("jobs")
+  const chatDoc = await firestore
+    .collection("chats")
     .doc(id)
     .get();
-  if (!jobDoc.exists) {
-    throw new Error("Job does not exist");
+  if (!chatDoc.exists) {
+    throw new Error("Chat does not exist");
   }
 
-  return { ...jobDoc.data(), id } as Job;
+  return {
+    ...chatDoc.data(),
+    id
+  } as Chat;
 };
 
 export default async (req: any, res: any) => {
   try {
     const { id }: { id: string } = req.params;
-    const data = await getJob(id);
+    const data = await getChat(id);
     return res.status(200).json(data);
   } catch (error) {
     res.status(500).send("Something broke!");

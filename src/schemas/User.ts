@@ -5,8 +5,8 @@ interface NotificationPreference {
 }
 
 export interface BaseUser {
-  id: string;
-  type: string;
+  id?: string;
+  type: "student" | "hirer";
   image: string;
   firstName: string;
   lastName: string;
@@ -18,12 +18,15 @@ export interface BaseUser {
   country: string;
   email: string;
   phoneNumber: string;
-  gender?: string;
+  gender?: "male" | "female" | "other";
   stripeId?: string; // stripe connect
   link?: string;
   bio?: string;
   locationKey?: string;
   pushToken?: string;
+  notifications?: {
+    [field: string]: NotificationPreference;
+  };
 }
 
 export interface Student extends BaseUser {
@@ -36,19 +39,9 @@ export interface Student extends BaseUser {
     graduationYear: string;
   };
   parentalApproval?: boolean;
-  notifications: {
-    chat: NotificationPreference;
-    job: NotificationPreference;
-    paid: NotificationPreference;
-    request: NotificationPreference;
-  };
 }
 
 export interface Hirer extends BaseUser {
   customerId: string; // used to pay students
   address: string;
-  notifications: {
-    chat: NotificationPreference;
-    claimed: NotificationPreference;
-  };
 }
