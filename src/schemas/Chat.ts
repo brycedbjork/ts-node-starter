@@ -8,13 +8,10 @@ export interface Message {
   text: string;
   time: number;
   date: string;
-  seenBy?: {
-    [field: string]: boolean;
-  };
 }
 
 export interface Chat {
-  id?: string;
+  id?: string; // chat data is stored in key(id) value(data) but can be consolidated with id
   active: boolean;
   hirer: {
     id: string;
@@ -35,4 +32,7 @@ export interface Chat {
   createdTime: number;
   createdDate: string;
   lastMessage: Message;
+  readBy: {
+    [uid: string]: boolean;
+  };
 }
