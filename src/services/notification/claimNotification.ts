@@ -48,7 +48,7 @@ export default async (
     if (hiringUser.notifications.claim.email) {
       await email({
         uid,
-        type: "claimed",
+        type: "jobClaimed",
         userEmail: hiringUser.email,
         jobId,
         jobData

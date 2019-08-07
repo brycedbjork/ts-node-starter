@@ -21,7 +21,7 @@ export const text = async (phoneNumber: string, message: string) => {
 };
 
 export interface TextOptions {
-  uid: string | string[];
+  uid?: string | string[];
   message: string;
   userPhoneNumber?: string | string[];
 }
@@ -35,7 +35,7 @@ export default async (options: TextOptions) => {
       numbers.push(userData.phoneNumber);
     } else {
       // multiple users
-      const userPromises = uid.map(singleId => getUser(singleId));
+      const userPromises = (<string[]>uid).map(singleId => getUser(singleId));
       const usersData = await Promise.all(userPromises);
       numbers = usersData.map(userData => userData.phoneNumber);
     }

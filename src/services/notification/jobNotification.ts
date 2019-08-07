@@ -67,11 +67,13 @@ export default async (jobId: string, jobData?: Job) => {
     }
   });
 
-  await push(toBePushed, `${jobData.type} job available nearby`);
-  await text(
-    toBeTexted,
-    `${jobData.type} job available nearby\nhireastudent.org/job/${jobId}`,
-    numbers
-  );
-  await email(toBeEmailed, "job", emails);
+  await push({ uid: toBePushed, body: `${jobData.type} job available nearby` });
+  await text({
+    uid: toBeTexted,
+    message: `${
+      jobData.type
+    } job available nearby\nhireastudent.org/job/${jobId}`,
+    userPhoneNumber: numbers
+  });
+  await email({ uid: toBeEmailed, type: "nearbyJob", userEmail: emails });
 };
