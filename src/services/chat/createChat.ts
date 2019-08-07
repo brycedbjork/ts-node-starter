@@ -56,6 +56,10 @@ export const createChat = async (
       text: `Connected to complete ${jobId ? `${jobData.type} job` : "job"}`,
       time: moment().unix(),
       date: moment().format()
+    },
+    readBy: {
+      [uid]: false,
+      [otherUser]: false
     }
   };
   const addedChat = await firestore.collection("chats").add(newChat);
