@@ -18,32 +18,34 @@ const geoJobLocations: GeoCollectionReference = geoFirestore.collection(
   "jobLocations"
 );
 
-const deleteJob = async (req: any, res: any) => {
+const deleteJob = async (jobId: string) => {
+  // get job entity
+  const jobDoc = await firestore
+    .collection("jobs")
+    .doc(jobId)
+    .get();
+  if (!jobDoc.exists) {
+    throw new Error("Job does not exist");
+  }
+
+  // delete location key
+  const jobEntity = jobDoc.data() as Job;
+  if (jobEntity.locationKey) {
+    await geoJobLocations.doc(jobEntity.locationKey).delete();
+  }
+
+  // delete job itself
+  await firestore
+    .collection("jobs")
+    .doc(jobId)
+    .delete();
+};
+
+export default async (req: any, res: any) => {
   try {
     const { jobId }: { jobId: string } = req.body;
 
-    // get job entity
-    const jobDoc = await firestore
-      .collection("jobs")
-      .doc(jobId)
-      .get();
-    if (!jobDoc.exists) {
-      return res.status(400).send("Job does not exist");
-    }
-
-    // delete location key
-    const jobEntity = jobDoc.data() as Job;
-    if (jobEntity.locationKey) {
-      const deletedLocationKey = await geoJobLocations
-        .doc(jobEntity.locationKey)
-        .delete();
-    }
-
-    // delete job itself
-    const deleteJobKey = await firestore
-      .collection("jobs")
-      .doc(jobId)
-      .delete();
+    await deleteJob(jobId);
 
     return res.status(200).send();
 
@@ -56,5 +58,3 @@ const deleteJob = async (req: any, res: any) => {
     Sentry.captureException(error);
   }
 };
-
-export default authenticate(deleteJob);

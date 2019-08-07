@@ -10,5 +10,5 @@ export default {
   create: authenticate(createUser), // user is already auth'd when they write account data to uid
   update: authenticate(updateUser),
   delete: authenticate(deleteUser),
-  location: authenticate(locateUser)
+  locate: authenticate(locateUser)
 };

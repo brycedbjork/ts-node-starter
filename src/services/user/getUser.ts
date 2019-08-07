@@ -2,7 +2,12 @@ import { firestore } from "../../firebase";
 import * as Sentry from "@sentry/node";
 import { Student, Hirer, BaseUser } from "../../schemas/User";
 
-export const getUser = async (id: string, type?: "student" | "hirer") => {
+export async function getUser(id: string, type?: "student"): Promise<Student>;
+export async function getUser(id: string, type?: "hirer"): Promise<Hirer>;
+export async function getUser(
+  id: string,
+  type?: "student" | "hirer"
+): Promise<BaseUser> {
   // get user entity
   const userDoc = await firestore
     .collection("users")
@@ -27,7 +32,7 @@ export const getUser = async (id: string, type?: "student" | "hirer") => {
     default:
       return <BaseUser>data;
   }
-};
+}
 
 export default async (req: any, res: any) => {
   try {

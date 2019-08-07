@@ -6,7 +6,6 @@ import * as Sentry from "@sentry/node";
 import slack from "../../utils/slack";
 import { Student } from "../../schemas/User";
 import claimNotification from "../notification/claimNotification";
-import { getUser } from "../user/getUser";
 import { createChat } from "../chat/createChat";
 import { updateJob } from "../job/updateJob";
 
