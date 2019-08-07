@@ -13,6 +13,7 @@ import * as Sentry from "@sentry/node";
 import slack from "../../utils/slack";
 import { Hirer } from "../../schemas/User";
 import jobNotification from "../notification/jobNotification";
+import jobInviteNotification from "../notification/jobInviteNotification";
 import { getUser } from "../user/getUser";
 
 let geoFirestore = new GeoFirestore(firestore);
@@ -21,7 +22,7 @@ const geoJobLocations: GeoCollectionReference = geoFirestore.collection(
 );
 
 export const createJob = async (uid: string, data: JobPost) => {
-  const userEntity = await getUser(uid);
+  const userEntity = await getUser(uid, null);
 
   // TODO: get display location from job's lat lng
   const displayLocation = `${userEntity.city}${
@@ -29,7 +30,7 @@ export const createJob = async (uid: string, data: JobPost) => {
   }${!userEntity.state && userEntity.country ? `, ${userEntity.country}` : ""}`;
 
   // construct and post job
-  const newJob: any = {
+  const newJob: Job = {
     ...data,
     active: true,
     postedTime: moment().unix(),
@@ -40,7 +41,9 @@ export const createJob = async (uid: string, data: JobPost) => {
       image: userEntity.image
     },
     matchedUsers: {},
-    displayLocation
+    displayLocation,
+    status: "searching",
+    locationKey: null
   };
   const postedJob: admin.firestore.DocumentReference = await firestore
     .collection("jobs")
@@ -94,7 +97,8 @@ export default async (req: any, res: any) => {
     });
 
     if (data.type != "test") {
-      await jobNotification(id);
+      await jobNotification(id, job);
+      await jobInviteNotification(id, job);
     }
 
     return;

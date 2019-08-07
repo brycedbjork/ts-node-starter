@@ -8,7 +8,7 @@ import moment from "moment";
 import chatNotification from "../notification/chatNotification";
 
 const sendMessage = async (uid: string, chatId: string, text: string) => {
-  const userData = await getUser(uid);
+  const userData = await getUser(uid, null);
   const chatData = await getChat(chatId);
   if (chatData.hirer.id != uid && chatData.users[uid].active != true) {
     // user cannot send message into this chat

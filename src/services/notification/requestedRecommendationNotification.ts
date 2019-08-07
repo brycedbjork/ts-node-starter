@@ -7,7 +7,7 @@ import { getChat } from "../chat/getChat";
 import push from "./helpers/push";
 import text from "./helpers/text";
 import email from "./helpers/email";
-import { BaseUser } from "../../schemas/User";
+import { Student, Hirer } from "../../schemas/User";
 
 /*
 Sends notification to person whose recommendation was requested
@@ -16,7 +16,7 @@ Sends notification to person whose recommendation was requested
 export default async (
   requestId: string,
   recomendationRequest: RecommendationRequest,
-  userData: BaseUser
+  userData: Student
 ) => {
   await text({
     message: `${userData.firstName} ${
@@ -29,6 +29,7 @@ export default async (
     type: "recommendationRequest",
     userEmail: recomendationRequest.from.email,
     requestData: recomendationRequest,
+    userData,
     requestId
   });
 };

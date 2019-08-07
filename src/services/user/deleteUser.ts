@@ -9,9 +9,7 @@ import {
 } from "geofirestore";
 import moment from "moment";
 import * as Sentry from "@sentry/node";
-import { BaseUser } from "../../schemas/User";
-import slack from "../../utils/slack";
-import authenticate from "../../utils/authenticate";
+import { Student, Hirer } from "../../schemas/User";
 
 let geoFirestore = new GeoFirestore(firestore);
 const geoUserLocations: GeoCollectionReference = geoFirestore.collection(
@@ -28,7 +26,7 @@ export const deleteUser = async (uid: string) => {
     throw new Error("User does not exist");
   }
 
-  const userEntity = userDoc.data() as BaseUser;
+  const userEntity = userDoc.data() as Student | Hirer;
 
   // delete chats
   const chatQuery = await firestore

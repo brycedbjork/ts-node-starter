@@ -12,6 +12,11 @@ export interface JobPost {
   hours: number;
   description: string;
   recurring: boolean;
+  invited?: {
+    [uid: string]: boolean;
+  };
+  tags: string[];
+  photo: string;
 }
 
 export interface Job extends JobPost {
@@ -27,5 +32,5 @@ export interface Job extends JobPost {
   };
   displayLocation: string;
   matchedUsers: object;
-  locationKey: string;
+  locationKey: string | null;
 }

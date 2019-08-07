@@ -6,8 +6,8 @@ import { getUser } from "../user/getUser";
 
 export const addRecommendation = async (uid: string, forUser: string) => {
   // get user docs
-  const recommendingUser = await getUser(uid);
-  const recommendedUser = await getUser(forUser);
+  const recommendingUser = await getUser(uid, "hirer");
+  const recommendedUser = await getUser(forUser, "student");
 
   // construct recommendation
   const newRecommendation: Recommendation = {

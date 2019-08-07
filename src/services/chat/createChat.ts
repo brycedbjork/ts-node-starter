@@ -4,6 +4,7 @@ import * as Sentry from "@sentry/node";
 import { Chat } from "../../schemas/Chat";
 import { getUser } from "../user/getUser";
 import { getJob } from "../job/getJob";
+import { Student, Hirer } from "../../schemas/User";
 
 export const createChat = async (
   uid: string,
@@ -11,13 +12,15 @@ export const createChat = async (
   jobId?: string
 ) => {
   // get user docs
-  const primaryUser = await getUser(uid);
-  const secondaryUser = await getUser(otherUser);
+  const primaryUser = await getUser(uid, null);
+  const secondaryUser = await getUser(otherUser, null);
 
   // get job
+  let jobObj: any = { job: null };
   let jobData: any = {};
   if (jobId) {
     jobData = await getJob(jobId);
+    jobObj.job = jobData;
   }
 
   // construct chat
@@ -60,7 +63,8 @@ export const createChat = async (
     readBy: {
       [uid]: false,
       [otherUser]: false
-    }
+    },
+    ...jobObj
   };
   const addedChat = await firestore.collection("chats").add(newChat);
 

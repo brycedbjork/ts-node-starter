@@ -21,7 +21,7 @@ export const locateUser = async (
   coordinates: { latitude: number; longitude: number }
 ) => {
   // get user
-  const userData = await getUser(uid);
+  const userData = await getUser(uid, null);
 
   // add to location collection
   const { latitude, longitude } = coordinates;

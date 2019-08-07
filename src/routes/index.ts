@@ -1,6 +1,7 @@
 import job from "../services/job";
 import user from "../services/user";
 import chat from "../services/chat";
+import recommend from "../services/recommend";
 import about from "./about";
 
 export default (app: any) => {
@@ -20,4 +21,6 @@ export default (app: any) => {
   app.route("/chat/delete").post(chat.delete);
   app.route("/chat/update").post(chat.update);
   app.route("/chat/sendMessage").post(chat.sendMessage);
+  app.route("/recommend/add").post(recommend.add);
+  app.route("/recommend/request").post(recommend.request);
 };

@@ -31,11 +31,13 @@ export default async (options: TextOptions) => {
   if (!userPhoneNumber) {
     if (typeof uid === "string") {
       // single user
-      const userData = await getUser(uid);
+      const userData = await getUser(uid, null);
       numbers.push(userData.phoneNumber);
     } else {
       // multiple users
-      const userPromises = (<string[]>uid).map(singleId => getUser(singleId));
+      const userPromises = (<string[]>uid).map(singleId =>
+        getUser(singleId, null)
+      );
       const usersData = await Promise.all(userPromises);
       numbers = usersData.map(userData => userData.phoneNumber);
     }

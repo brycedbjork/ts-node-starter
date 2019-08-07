@@ -11,7 +11,7 @@ export const requestRecommendation = async (
   message: string
 ) => {
   // get user docs
-  const requestingUser = await getUser(uid);
+  const requestingUser = await getUser(uid, "student");
 
   // construct recommendation
   const newRecommendationRequest: RecommendationRequest = {

@@ -1,13 +1,11 @@
 import { firestore } from "../../firebase";
 import * as Sentry from "@sentry/node";
-import { Student, Hirer, BaseUser } from "../../schemas/User";
+import { Student, Hirer } from "../../schemas/User";
 
-export async function getUser(id: string, type?: "student"): Promise<Student>;
-export async function getUser(id: string, type?: "hirer"): Promise<Hirer>;
-export async function getUser(
-  id: string,
-  type?: "student" | "hirer"
-): Promise<BaseUser> {
+export async function getUser(id: string, type: "student"): Promise<Student>;
+export async function getUser(id: string, type: "hirer"): Promise<Hirer>;
+export async function getUser(id: string, type: null): Promise<Student | Hirer>;
+export async function getUser(id: any, type: any): Promise<any> {
   // get user entity
   const userDoc = await firestore
     .collection("users")
@@ -30,7 +28,7 @@ export async function getUser(
       return <Hirer>data;
 
     default:
-      return <BaseUser>data;
+      return <Student | Hirer>data;
   }
 }
 
@@ -38,7 +36,7 @@ export default async (req: any, res: any) => {
   try {
     const { id }: { id: string } = req.params;
 
-    const userData = await getUser(id);
+    const userData = await getUser(id, null);
 
     // TODO: filter data sent to client
 

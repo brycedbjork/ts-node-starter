@@ -14,8 +14,8 @@ export const createReview = async (
   jobId?: string
 ) => {
   // get user docs
-  const reviewingUser = await getUser(uid);
-  const reviewedUser = await getUser(forUser);
+  const reviewingUser = await getUser(uid, "hirer");
+  const reviewedUser = await getUser(forUser, "student");
 
   // construct review
   let jobObj: any = {

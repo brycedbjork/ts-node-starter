@@ -8,7 +8,7 @@ import push from "./helpers/push";
 import text from "./helpers/text";
 import email from "./helpers/email";
 import { Chat } from "../../schemas/Chat";
-import { BaseUser } from "../../schemas/User";
+import { Student, Hirer } from "../../schemas/User";
 
 /*
 Sends notification to other chat participant(s) after new message
@@ -16,12 +16,12 @@ Sends notification to other chat participant(s) after new message
 
 export default async (
   from: string,
-  fromData: BaseUser,
+  fromData: Student | Hirer,
   to: string[],
   message: string,
   chatId: string
 ) => {
-  const userPromises = to.map(id => getUser(id));
+  const userPromises = to.map(id => getUser(id, null));
   const usersData = await Promise.all(userPromises);
 
   let toBePushed: string[] = [];

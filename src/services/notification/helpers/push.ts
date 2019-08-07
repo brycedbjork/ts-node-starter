@@ -18,11 +18,11 @@ export default async (options: PushOptions) => {
   let getUsers = [];
   if (typeof uid === "string") {
     // single user
-    getUsers.push(getUser(uid));
+    getUsers.push(getUser(uid, null));
   } else {
     // multiple users
     uid.forEach(singleId => {
-      getUsers.push(getUser(singleId));
+      getUsers.push(getUser(singleId, null));
     });
   }
   const users = await Promise.all(getUsers);

@@ -1,11 +1,25 @@
 import { firestore } from "../../firebase";
 import admin from "firebase-admin";
 import moment from "moment";
-import { BaseUser } from "../../schemas/User";
+import { NewStudent, Student, NewHirer, Hirer } from "../../schemas/User";
 import * as Sentry from "@sentry/node";
 import slack from "../../utils/slack";
 
-export const createUser = async (uid: string, data: BaseUser) => {
+export async function createUser(
+  uid: string,
+  data: NewStudent,
+  type: "student"
+): Promise<Student>;
+export async function createUser(
+  uid: string,
+  data: NewHirer,
+  type: "hirer"
+): Promise<Hirer>;
+export async function createUser(
+  uid: string,
+  data: NewStudent | NewHirer,
+  type: "student" | "hirer"
+) {
   // get user doc
   const userDoc = await firestore
     .collection("users")
@@ -20,19 +34,57 @@ export const createUser = async (uid: string, data: BaseUser) => {
   }`;
 
   // construct and set user data
-  const newUser: any = {
-    ...data,
-    displayLocation,
-    joinedTime: moment().unix(),
-    joinedDate: moment().format()
-  };
-  const createdUser: admin.firestore.WriteResult = await firestore
+  let newUser: any;
+  if (data.type == "student") {
+    const initNotifications = {
+      jobs: {
+        push: true,
+        text: true,
+        email: true
+      },
+      chat: {
+        push: true,
+        text: true,
+        email: false
+      }
+    };
+    newUser = {
+      ...data,
+      displayLocation,
+      joinedTime: moment().unix(),
+      joinedDate: moment().format(),
+      jobs: {},
+      notifications: initNotifications,
+      locationKey: null
+    } as Student;
+  } else {
+    const initNotifications = {
+      jobs: {
+        push: true,
+        text: true,
+        email: true
+      },
+      chat: {
+        push: true,
+        text: true,
+        email: false
+      }
+    };
+    newUser = {
+      ...data,
+      displayLocation,
+      joinedTime: moment().unix(),
+      joinedDate: moment().format(),
+      customerId: null,
+      locationKey: null,
+      notifications: initNotifications
+    } as Hirer;
+  }
+
+  await firestore
     .collection("users")
     .doc(uid)
     .set(newUser, { merge: true });
-  if (!createdUser) {
-    throw new Error("Could not create user");
-  }
 
   // log signup
   slack(
@@ -42,13 +94,21 @@ export const createUser = async (uid: string, data: BaseUser) => {
       newUser.phoneNumber
     }_`
   );
-};
+
+  return newUser;
+}
 
 export default async (req: any, res: any) => {
   try {
-    const { uid, data }: { uid: string; data: BaseUser } = req.body;
+    const {
+      uid,
+      data
+    }: { uid: string; data: NewStudent | NewHirer } = req.body;
 
-    const newUser = await createUser(uid, data);
+    const newUser =
+      data.type == "student"
+        ? await createUser(uid, data, "student")
+        : await createUser(uid, data, "hirer");
 
     // successful signup
     res.status(200).json({

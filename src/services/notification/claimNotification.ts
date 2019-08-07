@@ -27,8 +27,8 @@ export default async (
   const claimingUser = await getUser(uid, "student");
   const hiringUser = await getUser(jobData.hirer.id, "hirer");
 
-  if (hiringUser.notifications && hiringUser.notifications.claim) {
-    if (hiringUser.notifications.claim.push) {
+  if (hiringUser.notifications && hiringUser.notifications.jobs) {
+    if (hiringUser.notifications.jobs.push) {
       await push({
         uid,
         body: `${claimingUser.firstName} claimed your ${jobData.type} job`,
@@ -37,7 +37,7 @@ export default async (
         }
       });
     }
-    if (hiringUser.notifications.claim.text) {
+    if (hiringUser.notifications.jobs.text) {
       await text({
         uid,
         message: `${claimingUser.firstName} claimed your ${
@@ -45,7 +45,7 @@ export default async (
         } job\nhireastudent.org/chat/${chatId}`
       });
     }
-    if (hiringUser.notifications.claim.email) {
+    if (hiringUser.notifications.jobs.email) {
       await email({
         uid,
         type: "jobClaimed",
