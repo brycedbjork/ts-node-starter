@@ -4,6 +4,7 @@ export interface Payment {
   to: string;
   amount: number;
   currency: string;
+  description: string;
   date: string;
   time: number;
   job: {

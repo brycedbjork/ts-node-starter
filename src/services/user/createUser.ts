@@ -4,6 +4,9 @@ import moment from "moment";
 import { NewStudent, Student, NewHirer, Hirer } from "../../schemas/User";
 import * as Sentry from "@sentry/node";
 import slack from "../../utils/slack";
+import { purePhone } from "../../utils/formatPhone";
+import matchReferral from "../refer/matchReferral";
+import createCustomer from "../pay/createCustomer";
 
 export async function createUser(
   uid: string,
@@ -33,9 +36,12 @@ export async function createUser(
     !data.state && data.country ? `, ${data.country}` : ""
   }`;
 
+  const phoneNumber = purePhone(data.phoneNumber);
+
   // construct and set user data
   let newUser: any;
   if (data.type == "student") {
+    // student signup
     const initNotifications = {
       jobs: {
         push: true,
@@ -55,9 +61,16 @@ export async function createUser(
       joinedDate: moment().format(),
       jobs: {},
       notifications: initNotifications,
-      locationKey: null
+      locationKey: null,
+      phoneNumber
     } as Student;
   } else {
+    // hirer signup
+    const customerId = await createCustomer(
+      data.email,
+      `${data.firstName} ${data.lastName}`,
+      data.phoneNumber
+    );
     const initNotifications = {
       jobs: {
         push: true,
@@ -75,7 +88,7 @@ export async function createUser(
       displayLocation,
       joinedTime: moment().unix(),
       joinedDate: moment().format(),
-      customerId: null,
+      customerId,
       locationKey: null,
       notifications: initNotifications
     } as Hirer;
@@ -90,10 +103,13 @@ export async function createUser(
   slack(
     `*Signup* ${newUser.type} in ${newUser.city} in ${
       newUser.displayLocation
-    } _${newUser.firstName} ${newUser.lastName} ${newUser.email} ${
-      newUser.phoneNumber
-    }_`
+    } _${newUser.firstName} ${newUser.lastName} ${
+      newUser.email
+    } ${phoneNumber}_`
   );
+
+  // capture referral
+  await matchReferral(uid, newUser);
 
   return newUser;
 }

@@ -2,6 +2,7 @@ import job from "../services/job";
 import user from "../services/user";
 import chat from "../services/chat";
 import recommend from "../services/recommend";
+import pay from "../services/pay";
 import about from "./about";
 
 export default (app: any) => {
@@ -23,4 +24,7 @@ export default (app: any) => {
   app.route("/chat/sendMessage").post(chat.sendMessage);
   app.route("/recommend/add").post(recommend.add);
   app.route("/recommend/request").post(recommend.request);
+  app.route("/pay/connectStripe").get(pay.connectStripe);
+  app.route("/pay/charge").post(pay.charge);
+  app.route("/pay/addCard").post(pay.addCard);
 };

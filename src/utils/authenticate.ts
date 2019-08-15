@@ -9,8 +9,16 @@ export default function(wrapped: any) {
     const req: any = arguments[0];
     const res = arguments[1];
     try {
-      const uid: string = req.body.uid;
-      const token: string = req.body.token;
+      let uid: string;
+      let token: string;
+      if (req.method == "GET") {
+        uid = req.query.uid;
+        token = req.query.token;
+      } else {
+        uid = req.body.uid;
+        token = req.body.token;
+      }
+
       // verify user is who they say they are
       const decodedToken = await auth.verifyIdToken(token);
       if (decodedToken.uid == uid) {

@@ -2,6 +2,7 @@ import { getUser } from "../../user/getUser";
 import { getJob } from "../../job/getJob";
 import sendgrid from "@sendgrid/mail";
 import { Student, Hirer } from "../../../schemas/User";
+import { WebReferral, DirectReferral } from "../../../schemas/Refer";
 import { Job } from "../../../schemas/Job";
 import { RecommendationRequest } from "../../../schemas/Recommend";
 import moment from "moment";
@@ -14,7 +15,8 @@ export interface EmailOptions {
     | "newMessage"
     | "jobClaimed"
     | "recommendationRequest"
-    | "invitedJob";
+    | "invitedJob"
+    | "referral";
   userEmail?: string | string[];
   jobId?: string;
   jobData?: object;
@@ -24,6 +26,8 @@ export interface EmailOptions {
   userData?: Student | Hirer;
   requestData?: RecommendationRequest;
   requestId?: string;
+  link?: string;
+  referral?: WebReferral | DirectReferral;
 }
 export default async (options: EmailOptions) => {
   let {
@@ -37,7 +41,9 @@ export default async (options: EmailOptions) => {
     fromData,
     userData,
     requestData,
-    requestId
+    requestId,
+    link,
+    referral
   } = options;
   // create array of email addresses to send to
   let emails = [];
@@ -128,6 +134,18 @@ export default async (options: EmailOptions) => {
             (<Job>jobData).timing == "flexible"
               ? "flexible"
               : moment((<Job>jobData).timing).format("dddd MMMM D h:mma")
+        }
+      };
+      break;
+
+    case "referral":
+      newMessage = {
+        to: emails,
+        from: "no-reply@hireastudent.org",
+        templateId: "d-2e3c891fc35245d888ab35a552df00cc",
+        dynamicTemplateData: {
+          link,
+          referral
         }
       };
       break;
