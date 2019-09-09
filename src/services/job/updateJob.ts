@@ -26,7 +26,8 @@ export const updateJob = async (jobId: string, data: object) => {
 
 export default async (req: any, res: any) => {
   try {
-    const { jobId, data }: { jobId: string; data: object } = req.body;
+    const { jobId }: { jobId: string } = req.params;
+    const { data }: { data: object } = req.body;
 
     const job = await updateJob(jobId, data);
 

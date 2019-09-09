@@ -61,6 +61,7 @@ export interface Student extends NewStudent {
   notifications: {
     jobs: NotificationPreference;
     chat: NotificationPreference;
+    payment: NotificationPreference;
   };
   joinedTime: number;
   joinedDate: string;
@@ -69,6 +70,10 @@ export interface Student extends NewStudent {
   bio?: string;
   locationKey: string | null;
   pushToken?: string;
+  coordinates?: {
+    longitude: number;
+    latitude: number;
+  };
 }
 
 export interface Hirer extends NewHirer {
@@ -80,8 +85,13 @@ export interface Hirer extends NewHirer {
   notifications: {
     jobs: NotificationPreference;
     chat: NotificationPreference;
+    payment: NotificationPreference;
   };
   joinedTime: number;
   joinedDate: string;
   pushToken?: string;
+  coordinates?: {
+    longitude: number;
+    latitude: number;
+  };
 }

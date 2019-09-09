@@ -8,9 +8,7 @@ import {
   GeoQuerySnapshot
 } from "geofirestore";
 let geoFirestore = new GeoFirestore(firestore);
-const geoUserLocations: GeoCollectionReference = geoFirestore.collection(
-  "userLocations"
-);
+const geoUserLocations: GeoCollectionReference = geoFirestore.collection("userLocations");
 import { getJob } from "../job/getJob";
 import { getUser } from "../user/getUser";
 import push from "./helpers/push";
@@ -30,7 +28,7 @@ export default async (jobId: string, jobData?: Job) => {
 
   // pull nearby students
   const { latitude, longitude } = jobData.coordinates;
-  const query: GeoQuery = await geoUserLocations
+  const query: GeoQuery = geoUserLocations
     .near({
       center: new admin.firestore.GeoPoint(latitude, longitude),
       radius: NOTIFICATION_RADIUS
@@ -70,9 +68,7 @@ export default async (jobId: string, jobData?: Job) => {
   await push({ uid: toBePushed, body: `${jobData.type} job available nearby` });
   await text({
     uid: toBeTexted,
-    message: `${
-      jobData.type
-    } job available nearby\nhireastudent.org/job/${jobId}`,
+    message: `${jobData.type} job available nearby\nhireastudent.org/job/${jobId}`,
     userPhoneNumber: numbers
   });
   await email({ uid: toBeEmailed, type: "nearbyJob", userEmail: emails });

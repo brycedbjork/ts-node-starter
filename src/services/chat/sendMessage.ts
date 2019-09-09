@@ -50,13 +50,10 @@ const sendMessage = async (uid: string, chatId: string, text: string) => {
 
 export default async (req: any, res: any) => {
   try {
-    const {
-      uid,
-      chatId,
-      text
-    }: { uid: string; text: string; chatId: string } = req.body;
+    const { id } = req.params;
+    const { uid, text }: { uid: string; text: string; chatId: string } = req.body;
 
-    await sendMessage(uid, chatId, text);
+    await sendMessage(uid, id, text);
 
     return res.status(200).send();
   } catch (error) {

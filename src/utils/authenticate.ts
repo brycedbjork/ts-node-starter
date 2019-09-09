@@ -24,7 +24,7 @@ export default function(wrapped: any) {
       if (decodedToken.uid == uid) {
         return wrapped.apply(this, arguments);
       } else {
-        throw new Error("decoded uid did not match passed uid");
+        throw "decoded uid did not match passed uid";
       }
     } catch (error) {
       Sentry.captureException(error);

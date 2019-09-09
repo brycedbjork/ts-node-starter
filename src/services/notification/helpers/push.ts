@@ -11,9 +11,10 @@ export interface PushOptions {
   body: string;
   title?: string;
   data?: object;
+  badge?: number;
 }
 export default async (options: PushOptions) => {
-  const { uid, body, title, data } = options;
+  const { uid, body, title, data, badge = 1 } = options;
   // get all push tokens
   let getUsers = [];
   if (typeof uid === "string") {
@@ -36,7 +37,7 @@ export default async (options: PushOptions) => {
   // construct payload
   let notification: any = {
     body,
-    badge: "1",
+    badge: `${badge}`,
     data
   };
   if (title) notification.title = title;

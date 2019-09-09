@@ -17,17 +17,15 @@ import jobInviteNotification from "../notification/jobInviteNotification";
 import { getUser } from "../user/getUser";
 
 let geoFirestore = new GeoFirestore(firestore);
-const geoJobLocations: GeoCollectionReference = geoFirestore.collection(
-  "jobLocations"
-);
+const geoJobLocations: GeoCollectionReference = geoFirestore.collection("jobLocations");
 
 export const createJob = async (uid: string, data: JobPost) => {
   const userEntity = await getUser(uid, null);
 
   // TODO: get display location from job's lat lng
-  const displayLocation = `${userEntity.city}${
-    userEntity.state ? `, ${userEntity.state}` : ""
-  }${!userEntity.state && userEntity.country ? `, ${userEntity.country}` : ""}`;
+  const displayLocation = `${userEntity.city}${userEntity.state ? `, ${userEntity.state}` : ""}${
+    !userEntity.state && userEntity.country ? `, ${userEntity.country}` : ""
+  }`;
 
   // construct and post job
   const newJob: Job = {
@@ -73,9 +71,7 @@ export const createJob = async (uid: string, data: JobPost) => {
 
   // log job post
   slack(
-    `*Job Post* ${newJob.type} for ${newJob.hirer.firstName} in ${
-      newJob.displayLocation
-    } _${newJob.description}_`
+    `*Job Post* ${newJob.type} for ${newJob.hirer.firstName} in ${newJob.displayLocation} _${newJob.description}_`
   );
 
   return {
@@ -92,8 +88,8 @@ export default async (req: any, res: any) => {
 
     // successful post
     res.status(200).json({
-      id: id,
-      data: job
+      id,
+      job
     });
 
     if (data.type != "test") {

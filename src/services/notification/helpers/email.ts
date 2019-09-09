@@ -16,7 +16,10 @@ export interface EmailOptions {
     | "jobClaimed"
     | "recommendationRequest"
     | "invitedJob"
-    | "referral";
+    | "referral"
+    | "successfulPayment"
+    | "receivedPayment"
+    | "earnedCommission";
   userEmail?: string | string[];
   jobId?: string;
   jobData?: object;
@@ -148,6 +151,18 @@ export default async (options: EmailOptions) => {
           referral
         }
       };
+      break;
+
+    case "successfulPayment":
+      // TODO
+      break;
+
+    case "receivedPayment":
+      // TODO
+      break;
+
+    case "earnedCommission":
+      // TODO
       break;
   }
   await sendgrid.sendMultiple(newMessage);

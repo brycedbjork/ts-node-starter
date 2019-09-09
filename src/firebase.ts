@@ -4,9 +4,7 @@ admin.initializeApp({
   credential: admin.credential.cert({
     projectId: process.env.PROJECT_ID,
     clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-    privateKey: process.env.FIREBASE_KEY
-      ? process.env.FIREBASE_KEY.replace(/\\n/g, "\n")
-      : ""
+    privateKey: process.env.FIREBASE_KEY ? process.env.FIREBASE_KEY.replace(/\\n/g, "\n") : ""
   }),
   databaseURL: "https://hireastudent-tech.firebaseio.com"
 });

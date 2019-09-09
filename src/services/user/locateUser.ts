@@ -12,9 +12,7 @@ import authenticate from "../../utils/authenticate";
 import { getUser } from "../user/getUser";
 
 let geoFirestore = new GeoFirestore(firestore);
-const geoUserLocations: GeoCollectionReference = geoFirestore.collection(
-  "userLocations"
-);
+const geoUserLocations: GeoCollectionReference = geoFirestore.collection("userLocations");
 
 export const locateUser = async (
   uid: string,
@@ -34,12 +32,13 @@ export const locateUser = async (
     throw new Error("Could not index location");
   }
 
-  // add indexedLocation to job entity
+  // add indexedLocation and coordinates to job entity
   await firestore
     .collection("users")
     .doc(uid)
     .update({
-      locationKey: indexedLocation.id
+      locationKey: indexedLocation.id,
+      coordinates
     });
 };
 

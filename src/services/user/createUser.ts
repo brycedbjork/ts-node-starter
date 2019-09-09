@@ -52,6 +52,11 @@ export async function createUser(
         push: true,
         text: true,
         email: false
+      },
+      payment: {
+        push: true,
+        text: true,
+        email: true
       }
     };
     newUser = {
@@ -81,6 +86,11 @@ export async function createUser(
         push: true,
         text: true,
         email: false
+      },
+      payment: {
+        push: true,
+        text: true,
+        email: true
       }
     };
     newUser = {
@@ -101,11 +111,7 @@ export async function createUser(
 
   // log signup
   slack(
-    `*Signup* ${newUser.type} in ${newUser.city} in ${
-      newUser.displayLocation
-    } _${newUser.firstName} ${newUser.lastName} ${
-      newUser.email
-    } ${phoneNumber}_`
+    `*Signup* ${newUser.type} in ${newUser.city} in ${newUser.displayLocation} _${newUser.firstName} ${newUser.lastName} ${newUser.email} ${phoneNumber}_`
   );
 
   // capture referral

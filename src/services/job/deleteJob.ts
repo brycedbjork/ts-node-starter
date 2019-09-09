@@ -18,18 +18,23 @@ const geoJobLocations: GeoCollectionReference = geoFirestore.collection(
   "jobLocations"
 );
 
-const deleteJob = async (jobId: string) => {
+const deleteJob = async (jobId: string, uid?: string) => {
   // get job entity
   const jobDoc = await firestore
     .collection("jobs")
     .doc(jobId)
     .get();
   if (!jobDoc.exists) {
-    throw new Error("Job does not exist");
+    throw "Job does not exist";
+  }
+  const jobEntity = jobDoc.data() as Job;
+
+  // check if user can delete job
+  if (uid && jobEntity.hirer.id != uid) {
+    throw "User cannot delete Job";
   }
 
   // delete location key
-  const jobEntity = jobDoc.data() as Job;
   if (jobEntity.locationKey) {
     await geoJobLocations.doc(jobEntity.locationKey).delete();
   }
@@ -43,9 +48,10 @@ const deleteJob = async (jobId: string) => {
 
 export default async (req: any, res: any) => {
   try {
-    const { jobId }: { jobId: string } = req.body;
+    const { id }: { id: string } = req.params;
+    const { uid }: { uid: string } = req.body;
 
-    await deleteJob(jobId);
+    await deleteJob(id, uid);
 
     return res.status(200).send();
 

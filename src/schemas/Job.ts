@@ -17,6 +17,7 @@ export interface JobPost {
   };
   tags: string[];
   photo: string;
+  public: boolean;
 }
 
 export interface Job extends JobPost {
@@ -31,6 +32,8 @@ export interface Job extends JobPost {
     image: string;
   };
   displayLocation: string;
-  matchedUsers: object;
+  matchedUsers: {
+    [userId: string]: boolean;
+  };
   locationKey: string | null;
 }
