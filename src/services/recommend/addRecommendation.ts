@@ -13,21 +13,17 @@ export const addRecommendation = async (uid: string, forUser: string) => {
   const newRecommendation: Recommendation = {
     by: {
       id: uid,
-      firstName: recommendingUser.firstName,
-      image: recommendingUser.image
+      firstName: recommendingUser.firstName
     },
     user: {
       id: forUser,
-      firstName: recommendedUser.firstName,
-      image: recommendedUser.image
+      firstName: recommendedUser.firstName
     },
     date: moment().format(),
     time: moment().unix()
   };
 
-  const addedRecommendation = await firestore
-    .collection("recommendations")
-    .add(newRecommendation);
+  const addedRecommendation = await firestore.collection("recommendations").add(newRecommendation);
   return {
     id: addedRecommendation.id,
     recommendation: newRecommendation
@@ -47,10 +43,7 @@ export default async (req: any, res: any) => {
     const {
       id,
       recommendation
-    }: { id: string; recommendation: Recommendation } = await addRecommendation(
-      uid,
-      forUser
-    );
+    }: { id: string; recommendation: Recommendation } = await addRecommendation(uid, forUser);
 
     // successful post
     res.status(200).json({

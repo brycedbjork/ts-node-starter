@@ -9,6 +9,7 @@ export default function(wrapped: any) {
     const req: any = arguments[0];
     const res = arguments[1];
     try {
+      console.log(req);
       let uid: string;
       let token: string;
       if (req.method == "GET") {

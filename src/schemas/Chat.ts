@@ -3,7 +3,6 @@ export interface Message {
   from?: {
     id: string;
     firstName: string;
-    image: string;
   };
   text: string;
   time: number;
@@ -16,13 +15,11 @@ export interface Chat {
   hirer: {
     id: string;
     firstName: string;
-    image: string;
   };
   users: {
     [id: string]: {
       active: boolean;
       firstName: string;
-      image: string;
     };
   };
   job?: {

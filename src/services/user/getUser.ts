@@ -40,7 +40,7 @@ export default async (req: any, res: any) => {
 
     // TODO: filter data sent to client
 
-    return res.status(200).json(userData);
+    return res.status(200).json({ data: userData });
 
     // success
   } catch (error) {

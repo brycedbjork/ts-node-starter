@@ -3,12 +3,10 @@ export interface Recommendation {
   by: {
     id: string;
     firstName: string;
-    image: string;
   };
   user: {
     id: string;
     firstName: string;
-    image: string;
   };
   date: string;
   time: number;
@@ -18,7 +16,6 @@ export interface RecommendationRequest {
   user: {
     id: string;
     firstName: string;
-    image: string;
   };
   from: {
     name: string;

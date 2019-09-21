@@ -17,8 +17,7 @@ export const requestRecommendation = async (
   const newRecommendationRequest: RecommendationRequest = {
     user: {
       id: uid,
-      firstName: requestingUser.firstName,
-      image: requestingUser.image
+      firstName: requestingUser.firstName
     },
     from,
     date: moment().format(),

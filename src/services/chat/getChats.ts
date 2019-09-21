@@ -1,36 +1,29 @@
-import moment from "moment";
 import * as Sentry from "@sentry/node";
 import { getUser } from "../user/getUser";
-import { getJob } from "../job/getJob";
 import { firestore } from "../../firebase";
-import { Job } from "../../schemas/Job";
+import { Chat } from "../../schemas/Chat";
 
 /*
-Gets user's jobs
-For students, returns all jobs that you are matched with
-For hirers, returns all jobs that you 
+Gets user's chats 
 */
 
-export const getMyJobs = async (uid: string) => {
-  let jobs: { [jobId: string]: Job } = {};
+export const getChats = async (uid: string) => {
+  let chats: { [chatId: string]: Chat } = {};
 
   const userData = await getUser(uid, null);
 
-  const field = userData.type == "hirer" ? "hirer.id" : `matchedUsers.${uid}`;
+  const field = userData.type == "hirer" ? "hirer.id" : "users.id.active";
   const value = userData.type == "hirer" ? uid : true;
 
   const querySnap = await firestore
-    .collection("jobs")
+    .collection("chats")
     .where(field, "==", value)
     .get();
 
   querySnap.docs.forEach(doc => {
-    jobs[doc.id] = {
-      id: doc.id,
-      ...doc.data()
-    } as Job;
+    chats[doc.id] = { id: doc.id, ...doc.data() } as Chat;
   });
-  return jobs;
+  return chats;
 };
 
 export default async (req: any, res: any) => {
@@ -41,10 +34,10 @@ export default async (req: any, res: any) => {
       uid: string;
     } = req.params;
 
-    const jobs = await getMyJobs(uid);
+    const chats = await getChats(uid);
 
     // successful post
-    res.status(200).json({ jobs });
+    res.status(200).json({ chats });
   } catch (error) {
     res.status(500).send(error);
     console.log("Error: " + error);

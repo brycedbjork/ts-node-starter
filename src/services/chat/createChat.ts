@@ -6,11 +6,7 @@ import { getUser } from "../user/getUser";
 import { getJob } from "../job/getJob";
 import { Student, Hirer } from "../../schemas/User";
 
-export const createChat = async (
-  uid: string,
-  otherUser: string,
-  jobId?: string
-) => {
+export const createChat = async (uid: string, otherUser: string, jobId?: string) => {
   // get user docs
   const primaryUser = await getUser(uid, null);
   const secondaryUser = await getUser(otherUser, null);
@@ -28,23 +24,16 @@ export const createChat = async (
     primaryUser.type == "hirer"
       ? {
           id: uid,
-          firstName: primaryUser.firstName,
-          image: primaryUser.image
+          firstName: primaryUser.firstName
         }
       : {
           id: otherUser,
-          firstName: secondaryUser.firstName,
-          image: secondaryUser.image
+          firstName: secondaryUser.firstName
         };
   const users = {
     [primaryUser.type == "hirer" ? otherUser : uid]: {
       active: true,
-      firstName:
-        primaryUser.type == "hirer"
-          ? secondaryUser.firstName
-          : primaryUser.firstName,
-      image:
-        primaryUser.type == "hirer" ? secondaryUser.image : primaryUser.image
+      firstName: primaryUser.type == "hirer" ? secondaryUser.firstName : primaryUser.firstName
     }
   };
 
@@ -76,17 +65,9 @@ export const createChat = async (
 
 export default async (req: any, res: any) => {
   try {
-    const {
-      uid,
-      otherUser,
-      jobId
-    }: { uid: string; otherUser: string; jobId: string } = req.body;
+    const { uid, otherUser, jobId }: { uid: string; otherUser: string; jobId: string } = req.body;
 
-    const { id, chat }: { id: string; chat: Chat } = await createChat(
-      uid,
-      otherUser,
-      jobId
-    );
+    const { id, chat }: { id: string; chat: Chat } = await createChat(uid, otherUser, jobId);
 
     // successful post
     res.status(200).json({

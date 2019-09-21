@@ -20,8 +20,7 @@ const sendMessage = async (uid: string, chatId: string, text: string) => {
     type: "text",
     from: {
       id: uid,
-      firstName: userData.firstName,
-      image: userData.image
+      firstName: userData.firstName
     },
     text,
     time: moment().unix(),

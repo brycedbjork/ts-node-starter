@@ -29,7 +29,6 @@ export interface Job extends JobPost {
   hirer: {
     id: string;
     firstName: string;
-    image: string;
   };
   displayLocation: string;
   matchedUsers: {

@@ -13,7 +13,7 @@ interface JobPreference {
 
 export interface NewStudent {
   type: "student";
-  image: string;
+  image: string | null;
   firstName: string;
   lastName: string;
   auth: {
@@ -26,11 +26,16 @@ export interface NewStudent {
   phoneNumber: string;
   dob: string;
   referral?: string;
+  coordinates?: {
+    longitude: number;
+    latitude: number;
+  };
+  bio?: string;
 }
 
 export interface NewHirer {
   type: "hirer";
-  image: string;
+  image: string | null;
   firstName: string;
   lastName: string;
   auth: {
@@ -43,7 +48,14 @@ export interface NewHirer {
   email: string;
   phoneNumber: string;
   referral?: string;
+  coordinates?: {
+    longitude: number;
+    latitude: number;
+  };
+  bio?: string;
 }
+
+export type NewUser = NewHirer | NewStudent;
 
 export interface Student extends NewStudent {
   id?: string;
@@ -67,13 +79,9 @@ export interface Student extends NewStudent {
   joinedDate: string;
   gender?: "male" | "female" | "other";
   stripeId?: string; // stripe connect
-  bio?: string;
   locationKey: string | null;
   pushToken?: string;
-  coordinates?: {
-    longitude: number;
-    latitude: number;
-  };
+  tester?: boolean;
 }
 
 export interface Hirer extends NewHirer {
@@ -90,8 +98,8 @@ export interface Hirer extends NewHirer {
   joinedTime: number;
   joinedDate: string;
   pushToken?: string;
-  coordinates?: {
-    longitude: number;
-    latitude: number;
-  };
+  tester?: boolean;
 }
+
+export type User = Hirer | Student;
+export type UserTypes = "hirer" | "student";

@@ -35,8 +35,7 @@ export const createJob = async (uid: string, data: JobPost) => {
     postedDate: moment().format(),
     hirer: {
       id: uid,
-      firstName: userEntity.firstName,
-      image: userEntity.image
+      firstName: userEntity.firstName
     },
     matchedUsers: {},
     displayLocation,

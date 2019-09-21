@@ -15,6 +15,8 @@ export const updateUser = async (uid: string, data: object) => {
     .collection("users")
     .doc(uid)
     .update(data);
+
+  // TODO: update image in jobs and chats
 };
 
 export default async (req: any, res: any) => {

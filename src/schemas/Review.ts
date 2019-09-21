@@ -3,12 +3,10 @@ export interface Review {
   by: {
     id: string;
     firstName: string;
-    image: string;
   };
   user: {
     id: string;
     firstName: string;
-    image: string;
   };
   date: string;
   time: number;
