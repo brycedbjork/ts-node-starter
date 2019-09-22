@@ -8,16 +8,8 @@ import { purePhone } from "../../utils/formatPhone";
 import matchReferral from "../refer/matchReferral";
 import createCustomer from "../pay/createCustomer";
 
-export async function createUser(
-  uid: string,
-  data: NewStudent,
-  type: "student"
-): Promise<Student>;
-export async function createUser(
-  uid: string,
-  data: NewHirer,
-  type: "hirer"
-): Promise<Hirer>;
+export async function createUser(uid: string, data: NewStudent, type: "student"): Promise<Student>;
+export async function createUser(uid: string, data: NewHirer, type: "hirer"): Promise<Hirer>;
 export async function createUser(
   uid: string,
   data: NewStudent | NewHirer,
@@ -122,10 +114,7 @@ export async function createUser(
 
 export default async (req: any, res: any) => {
   try {
-    const {
-      uid,
-      data
-    }: { uid: string; data: NewStudent | NewHirer } = req.body;
+    const { uid, data }: { uid: string; data: NewStudent | NewHirer } = req.body;
 
     const newUser =
       data.type == "student"

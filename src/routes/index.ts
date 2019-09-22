@@ -7,8 +7,10 @@ import about from "./about";
 import students from "../services/students";
 import jobs from "../services/jobs";
 import images from "../services/images";
+import express from "express";
+import authenticate from "../utils/authenticate";
 
-export default (app: any) => {
+export default (app: express.Application) => {
   app.route("/about").get(about);
   app.route("/job/:jobId").get(job.get);
   app.route("/job").post(job.create);

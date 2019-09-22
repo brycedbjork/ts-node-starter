@@ -1,24 +1,24 @@
 import { auth } from "../firebase";
 import * as Sentry from "@sentry/node";
+import atob from "atob";
+import express from "express";
 
 /*
   wraps express routes and authenticates the passed token
 */
 export default function(wrapped: any) {
   return async function(this: any) {
-    const req: any = arguments[0];
-    const res = arguments[1];
+    const req: express.Request = arguments[0];
+    const res: express.Response = arguments[1];
     try {
-      console.log(req);
-      let uid: string;
-      let token: string;
-      if (req.method == "GET") {
-        uid = req.query.uid;
-        token = req.query.token;
-      } else {
-        uid = req.body.uid;
-        token = req.body.token;
+      const authString = req.headers.authorization;
+      if (typeof authString != "string") {
+        throw "no auth string";
       }
+      const authBase64 = authString.split(" ")[1];
+      const decodedAuth = atob(authBase64);
+      const uid = decodedAuth.split(":")[0];
+      const token = decodedAuth.split(":")[1];
 
       // verify user is who they say they are
       const decodedToken = await auth.verifyIdToken(token);
@@ -28,7 +28,8 @@ export default function(wrapped: any) {
         throw "decoded uid did not match passed uid";
       }
     } catch (error) {
-      Sentry.captureException(error);
+      // Sentry.captureException(error);
+      console.log(error);
       return res.status(403).send("Could not validate token");
     }
   };
