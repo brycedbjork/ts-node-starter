@@ -21,7 +21,7 @@ export async function createUser(
     .doc(uid)
     .get();
   if (userDoc.exists) {
-    throw new Error("User already exists");
+    throw "User already exists";
   }
 
   const displayLocation = `${data.city}${data.state ? `, ${data.state}` : ""}${
