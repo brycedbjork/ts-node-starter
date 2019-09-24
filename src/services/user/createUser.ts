@@ -103,7 +103,7 @@ export async function createUser(
 
   // log signup
   slack(
-    `*Signup* ${newUser.type} in ${newUser.city} in ${newUser.displayLocation} _${newUser.firstName} ${newUser.lastName} ${newUser.email} ${phoneNumber}_`
+    `*Signup* ${newUser.type} in ${newUser.displayLocation} _${newUser.firstName} ${newUser.lastName} ${newUser.email} ${phoneNumber}_`
   );
 
   // capture referral

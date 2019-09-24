@@ -34,9 +34,9 @@ export async function getUser(id: any, type: any): Promise<any> {
 
 export default async (req: any, res: any) => {
   try {
-    const { id }: { id: string } = req.params;
+    const { uid }: { uid: string } = req.params;
 
-    const userData = await getUser(id, null);
+    const userData = await getUser(uid, null);
 
     // TODO: filter data sent to client
 
