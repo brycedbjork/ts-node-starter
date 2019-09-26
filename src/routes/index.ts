@@ -6,12 +6,19 @@ import pay from "../services/pay";
 import about from "./about";
 import students from "../services/students";
 import jobs from "../services/jobs";
+import config from "../services/config";
 import images from "../services/images";
 import express from "express";
-import authenticate from "../utils/authenticate";
 
 export default (app: express.Application) => {
   app.route("/about").get(about);
+  app.route("/config").get(config.get);
+  app.route("/config").post(config.addJob);
+  app.route("/config/:jobId").patch(config.updateJob);
+  app.route("/config/:jobId").delete(config.deleteJob);
+  app.route("/config/:jobId/skill").post(config.addSkill);
+  app.route("/config/:jobId/:skillId").patch(config.updateSkill);
+  app.route("/config/:jobId/:skillId").delete(config.deleteSkill);
   app.route("/job/:jobId").get(job.get);
   app.route("/job").post(job.create);
   app.route("/job/:jobId").delete(job.delete);

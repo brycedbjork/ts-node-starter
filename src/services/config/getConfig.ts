@@ -9,9 +9,23 @@ export const getConfig = async () => {
   let config: {
     [jobName: string]: ConfigJob;
   } = {};
-  configQuery.docs.forEach(doc => {
+  configQuery.docs.forEach(async doc => {
     const data = doc.data() as ConfigJob;
     config[data.name] = data;
+
+    // get skills
+    const skillsQuery = await firestore
+      .collection("config")
+      .doc(doc.id)
+      .collection("skills")
+      .get();
+    const skills = skillsQuery.docs.map(skillDoc => {
+      return {
+        id: skillDoc.id,
+        ...doc.data()
+      } as ConfigSkill;
+    });
+    config[data.name].skills = skills;
   });
 
   return config;

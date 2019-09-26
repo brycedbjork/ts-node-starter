@@ -11,8 +11,7 @@ interface JobPreference {
   };
 }
 
-export interface NewStudent {
-  type: "student";
+interface BaseUser {
   image: string | null;
   firstName: string;
   lastName: string;
@@ -24,35 +23,23 @@ export interface NewStudent {
   country: string;
   email: string;
   phoneNumber: string;
-  dob: string;
   referral?: string;
   coordinates?: {
     longitude: number;
     latitude: number;
   };
   bio?: string;
+  admin?: boolean;
 }
 
-export interface NewHirer {
+export interface NewStudent extends BaseUser {
+  type: "student";
+  dob: string;
+}
+
+export interface NewHirer extends BaseUser {
   type: "hirer";
-  image: string | null;
-  firstName: string;
-  lastName: string;
-  auth: {
-    [field: string]: string;
-  };
   address: string;
-  city: string;
-  state?: string;
-  country: string;
-  email: string;
-  phoneNumber: string;
-  referral?: string;
-  coordinates?: {
-    longitude: number;
-    latitude: number;
-  };
-  bio?: string;
 }
 
 export type NewUser = NewHirer | NewStudent;

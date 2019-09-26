@@ -8,7 +8,7 @@ import express from "express";
 */
 export default function(wrapped: any) {
   return async function(this: any) {
-    const req: express.Request = arguments[0];
+    let req: express.Request = arguments[0];
     const res: express.Response = arguments[1];
     try {
       const authString = req.headers.authorization;
@@ -19,6 +19,8 @@ export default function(wrapped: any) {
       const decodedAuth = atob(authBase64);
       const uid = decodedAuth.split(":")[0];
       const token = decodedAuth.split(":")[1];
+
+      req.headers.uid = uid;
 
       // verify user is who they say they are
       const decodedToken = await auth.verifyIdToken(token);
