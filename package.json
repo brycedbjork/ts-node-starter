@@ -7,7 +7,7 @@
     "start": "ts-node src/app.ts",
     "build": "yarn clean && yarn build-babel",
     "clean": "rm -rf build && mkdir build",
-    "build-babel": "npx babel -d ./build ./src -s --extensions '.ts'",
+    "build-babel": "npx babel -d ./build ./src -s --extensions '.ts' --ignore src/schemas",
     "check-types": "tsc"
   },
   "dependencies": {
@@ -35,7 +35,10 @@
     "@babel/core": "^7.5.5",
     "@babel/node": "^7.5.5",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-export-default-from": "^7.5.2",
     "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
+    "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/plugin-transform-typescript": "^7.6.0",
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-typescript": "^7.3.3",
     "@types/atob": "^2.1.2",
