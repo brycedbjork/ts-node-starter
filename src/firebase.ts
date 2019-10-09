@@ -6,7 +6,7 @@ admin.initializeApp({
     clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
     privateKey: process.env.FIREBASE_KEY ? process.env.FIREBASE_KEY.replace(/\\n/g, "\n") : ""
   }),
-  databaseURL: "https://hireastudent-tech.firebaseio.com"
+  databaseURL: "YOUR_DATABASE_URL"
 });
 
 export const database = admin.database();

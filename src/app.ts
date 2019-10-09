@@ -9,7 +9,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 Sentry.init({
-  dsn: "https://082068a8bf0448c59553b27f669c2a83@sentry.io/1487120"
+  dsn: "SENTRY_DSN"
 });
 
 app.use(logger("dev"));

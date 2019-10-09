@@ -99,7 +99,7 @@ export async function createUser(
   await firestore
     .collection("users")
     .doc(uid)
-    .set(newUser, { merge: true });
+    .set(newUser);
 
   // log signup
   slack(
